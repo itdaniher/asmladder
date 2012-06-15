@@ -4,7 +4,7 @@ F_CPU   = 8000000
 CFLAGS  =  -I. -DDEBUG_LEVEL=0
 OBJECTS = main.o 
 
-COMPILE = avr-gcc -g -Wall -Os -DF_CPU=$(F_CPU) $(CFLAGS) -mmcu=$(DEVICE)
+COMPILE = avr-gcc -g -Wall -O0 -DF_CPU=$(F_CPU) $(CFLAGS) -mmcu=$(DEVICE)
 
 main.html: html
 
