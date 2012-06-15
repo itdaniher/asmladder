@@ -1,5 +1,4 @@
 #include <avr/io.h>
-#include <avr/interrupt.h>
 
 ISR( TIM0_OVF_vect ) {
     PORTA ^= PIN1;
@@ -17,7 +16,7 @@ int main(void) {
    TIMSK0 |=1<<TOIE0;
 
    // enable interrupts
-   sei();
+   asm("sei");
  
    for(;;){}
 }
