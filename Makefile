@@ -18,7 +18,7 @@ main.elf: $(OBJECTS)
 	$(COMPILE) -o main.elf $(OBJECTS)
 
 disasm:	main.elf
-	avr-objdump -CSr main.o > main.objdump
+	avr-objdump -CSrw main.o > main.objdump
 
 html: disasm
 	pygmentize -o main.html main.objdump
