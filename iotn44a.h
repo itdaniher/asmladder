@@ -28,22 +28,9 @@
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
   POSSIBILITY OF SUCH DAMAGE. */
 
-/* $Id: iotn44a.h,v 1.1.2.2 2009/11/02 02:44:17 arcanum Exp $ */
-
 /* avr/iotn44a.h - definitions for ATtiny44A */
 
-/* This file should only be included from <avr/io.h>, never directly. */
-
-#ifndef _AVR_IO_H_
-#  error "Include <avr/io.h> instead of this file."
-#endif
-
-#ifndef _AVR_IOXXX_H_
-#  define _AVR_IOXXX_H_ "iotn44a.h"
-#else
-#  error "Attempt to include more than one <avr/ioXXX.h> file."
-#endif 
-
+#include "sfr_defs.h"
 
 #ifndef _AVR_ATtiny44A_H_
 #define _AVR_ATtiny44A_H_ 1
