@@ -1,13 +1,17 @@
 #include "iotn44a.h"
 
+
+#  define ISR(vector, ...) void vector (void) __attribute__ ((signal,__INTR_ATTRS)) __VA_ARGS__; void vector (void)
+
+
 ISR( TIM0_OVF_vect ) {
-    PORTA ^= PIN1;
+    PORTA ^= 1<<1;
 }
 
 int main(void) {
 
-   // Set up Port B pin 4 mode to output
-    DDRA = PIN1;
+   // Set up Port A pin 1 mode to output
+    DDRA = 1<<1;
  
    // prescale timer to 1/1024th the clock rate
    TCCR0B |= (1<<CS02) | (1<<CS00);
