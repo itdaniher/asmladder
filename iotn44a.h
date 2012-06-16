@@ -35,6 +35,9 @@
 #ifndef _AVR_ATtiny44A_H_
 #define _AVR_ATtiny44A_H_ 1
 
+/* monkeypatch ISR definition */
+
+#  define ISR(vector, ...) void vector (void) __attribute__ ((signal,__INTR_ATTRS)) __VA_ARGS__; void vector (void)
 
 /* Registers and associated bit numbers. */
 
