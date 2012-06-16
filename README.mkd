@@ -24,28 +24,28 @@ a basic [harvard architecture](http://infocenter.arm.com/help/index.jsp?topic=/c
 
 as per [the datasheet](http://www.atmel.com/Images/doc8183.pdf), the attiny44a includes the following features:
 
-* 120 Powerful Instructions – Most Single Clock Cycle Execution
+> 120 Powerful Instructions – Most Single Clock Cycle Execution
 
 the instruction set is documented in [a lengthy pdf](http://www.atmel.com/Images/doc0856.pdf) but essentially maps a number of opcodes to arithmatic, bitmath, and flow control operations.
 
 for a "quick" summary, [the wikipedia page on the subject](http://en.wikipedia.org/wiki/AVR_instruction_set) isn't half bad.
 
-* 32 x 8 General Purpose Working Registers
+> 32 x 8 General Purpose Working Registers
 
 the registers are a set of 32 one-byte wide slots that CPU instructions can directly operate on
 
-* 4K Bytes of In-System, Self-programmable Flash Program Memory
-* 256 Bytes of In-System Programmable EEPROM
-* 256 Bytes of Internal SRAM
+> 4K Bytes of In-System, Self-programmable Flash Program Memory
+> 256 Bytes of In-System Programmable EEPROM
+> 256 Bytes of Internal SRAM
 
 the attiny has access to a few different memory spaces - one for data (eeprom), one for code (flash), and one for temporary storage (sram)
 
 additionally, there are 64 memory-mapped IO registers that expose the functionality of the following:
 
-* One 8-bit and One 16-bit Timer/Counter with Two PWM Channels, Each
-* 10-bit ADC
-* Programmable Watchdog Timer with Separate On-chip Oscillator
-* On-chip Analog Comparator
-* Universal Serial Interface
+> One 8-bit and One 16-bit Timer/Counter with Two PWM Channels, Each
+> 10-bit ADC
+> Programmable Watchdog Timer with Separate On-chip Oscillator
+> On-chip Analog Comparator
+> Universal Serial Interface
 
 these registers are described in the datasheet and listed in iotn44a.h. 
