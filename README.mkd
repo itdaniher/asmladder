@@ -35,7 +35,9 @@ for a "quick" summary, [the wikipedia page on the subject](http://en.wikipedia.o
 the registers are a set of 32 one-byte wide slots that CPU instructions can directly operate on
 
 > 4K Bytes of In-System, Self-programmable Flash Program Memory
+
 > 256 Bytes of In-System Programmable EEPROM
+
 > 256 Bytes of Internal SRAM
 
 the attiny has access to a few different memory spaces - one for data (eeprom), one for code (flash), and one for temporary storage (sram)
@@ -43,9 +45,13 @@ the attiny has access to a few different memory spaces - one for data (eeprom), 
 additionally, there are 64 memory-mapped IO registers that expose the functionality of the following:
 
 > One 8-bit and One 16-bit Timer/Counter with Two PWM Channels, Each
+
 > 10-bit ADC
+
 > Programmable Watchdog Timer with Separate On-chip Oscillator
+
 > On-chip Analog Comparator
+
 > Universal Serial Interface
 
 these registers are described in the datasheet and listed in iotn44a.h. 
