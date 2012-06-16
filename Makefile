@@ -20,7 +20,7 @@ main.elf: $(OBJECTS)
 disasm:	main.elf
 	avr-objdump -CSrw main.o > main.objdump
 
-mappings: main.elf
+mappings: main.o
 	avr-objdump -dl main.o > main.objdump
 
 html: disasm
