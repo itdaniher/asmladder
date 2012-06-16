@@ -16,9 +16,9 @@ int main(void) {
     TIMSK0 |=1<<TOIE0;
 
     // enable interrupts
-    asm("sei");
+    __asm("sei");
  
     for(;;){
-        asm("nop");
+        __asm("nop");
     }
 }
