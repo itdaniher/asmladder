@@ -4,6 +4,12 @@ import re
 fileobj = open("main.objdump").read()
 fileobj = fileobj.split('\n')[6:-1]
 
+fileobj = '\n'.join(fileobj).split('\n\n')
+ISR = fileobj[0].split('\n')
+MAIN = fileobj[1].split('\n')
+
+fileobj = ISR 
+
 # read source file
 filec = open("main.c").read()
 filec = filec.split('\n')
@@ -28,7 +34,7 @@ def removeItems(regex, lst):
 
 # remove includes and function definitions from the C code
 filec = removeItems(matchInclude, filec)
-filec = removeItems(matchFunctions, filec)
+#filec = removeItems(matchFunctions, filec)
 
 
 # iterate through the dumped assembly and process it. 
