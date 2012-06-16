@@ -1,0 +1,64 @@
+<div class="highlight"><pre><span class="nl">main.o</span><span class="p">:</span>     file format <span class="s">elf32-avr</span>
+
+
+Disassembly of section <span class="nl">.text</span><span class="p">:</span>
+
+<span class="mh">00000000</span> <span class="p">&lt;</span><span class="nf">__vector_11</span><span class="p">&gt;:</span>
+
+
+<span class="x">#  define ISR(vector, ...) void vector (void) __attribute__ ((signal,__INTR_ATTRS)) __VA_ARGS__; void vector (void)</span>
+
+
+<span class="x">ISR( TIM0_OVF_vect ) {</span>
+   <span class="nl">0:</span>	<span class="mh">1f 92 </span>      	<span class="nf">push</span>	<span class="no">r1</span>
+   <span class="nl">2:</span>	<span class="mh">0f 92 </span>      	<span class="nf">push</span>	<span class="no">r0</span>
+   <span class="nl">4:</span>	<span class="mh">0f b6 </span>      	<span class="nf">in</span>	<span class="no">r0</span><span class="p">,</span> <span class="mi">0x3f</span>	<span class="err">;</span> <span class="mi">63</span>
+   <span class="nl">6:</span>	<span class="mh">0f 92 </span>      	<span class="nf">push</span>	<span class="no">r0</span>
+   <span class="nl">8:</span>	<span class="mh">11 24 </span>      	<span class="nf">eor</span>	<span class="no">r1</span><span class="p">,</span> <span class="no">r1</span>
+   <span class="nl">a:</span>	<span class="mh">8f 93 </span>      	<span class="nf">push</span>	<span class="no">r24</span>
+   <span class="nl">c:</span>	<span class="mh">9f 93 </span>      	<span class="nf">push</span>	<span class="no">r25</span>
+<span class="x">     PORTA ^= 1 &lt;&lt; PINA1;</span>
+   <span class="nl">e:</span>	<span class="mh">8b b3 </span>      	<span class="nf">in</span>	<span class="no">r24</span><span class="p">,</span> <span class="mi">0x1b</span>	<span class="err">;</span> <span class="mi">27</span>
+  <span class="nl">10:</span>	<span class="mh">92 e0 </span>      	<span class="nf">ldi</span>	<span class="no">r25</span><span class="p">,</span> <span class="mi">0x02</span>	<span class="err">;</span> <span class="mi">2</span>
+  <span class="nl">12:</span>	<span class="mh">89 27 </span>      	<span class="nf">eor</span>	<span class="no">r24</span><span class="p">,</span> <span class="no">r25</span>
+  <span class="nl">14:</span>	<span class="mh">8b bb </span>      	<span class="nf">out</span>	<span class="mi">0x1b</span><span class="p">,</span> <span class="no">r24</span>	<span class="err">;</span> <span class="mi">27</span>
+<span class="x">}</span>
+  <span class="nl">16:</span>	<span class="mh">9f 91 </span>      	<span class="nf">pop</span>	<span class="no">r25</span>
+  <span class="nl">18:</span>	<span class="mh">8f 91 </span>      	<span class="nf">pop</span>	<span class="no">r24</span>
+  <span class="nl">1a:</span>	<span class="mh">0f 90 </span>      	<span class="nf">pop</span>	<span class="no">r0</span>
+  <span class="nl">1c:</span>	<span class="mh">0f be </span>      	<span class="nf">out</span>	<span class="mi">0x3f</span><span class="p">,</span> <span class="no">r0</span>	<span class="err">;</span> <span class="mi">63</span>
+  <span class="nl">1e:</span>	<span class="mh">0f 90 </span>      	<span class="nf">pop</span>	<span class="no">r0</span>
+  <span class="nl">20:</span>	<span class="mh">1f 90 </span>      	<span class="nf">pop</span>	<span class="no">r1</span>
+  <span class="nl">22:</span>	<span class="mh">18 95 </span>      	<span class="nf">reti</span>
+
+<span class="mh">00000024</span> <span class="p">&lt;</span><span class="nf">main</span><span class="p">&gt;:</span>
+
+<span class="x">int main(void) {</span>
+
+<span class="x">    // Set up port A pin 1 mode to output</span>
+<span class="x">     DDRA = 1 &lt;&lt; PINA1; </span>
+  <span class="nl">24:</span>	<span class="mh">82 e0 </span>      	<span class="nf">ldi</span>	<span class="no">r24</span><span class="p">,</span> <span class="mi">0x02</span>	<span class="err">;</span> <span class="mi">2</span>
+  <span class="nl">26:</span>	<span class="mh">8a bb </span>      	<span class="nf">out</span>	<span class="mi">0x1a</span><span class="p">,</span> <span class="no">r24</span>	<span class="err">;</span> <span class="mi">26</span>
+<span class="x"> </span>
+<span class="x">    // prescale timer to 1/1024th the clock rate</span>
+<span class="x">    TCCR0B |= (1&lt;&lt;CS02) | (1&lt;&lt;CS00);</span>
+  <span class="nl">28:</span>	<span class="mh">83 b7 </span>      	<span class="nf">in</span>	<span class="no">r24</span><span class="p">,</span> <span class="mi">0x33</span>	<span class="err">;</span> <span class="mi">51</span>
+  <span class="nl">2a:</span>	<span class="mh">85 60 </span>      	<span class="nf">ori</span>	<span class="no">r24</span><span class="p">,</span> <span class="mi">0x05</span>	<span class="err">;</span> <span class="mi">5</span>
+  <span class="nl">2c:</span>	<span class="mh">83 bf </span>      	<span class="nf">out</span>	<span class="mi">0x33</span><span class="p">,</span> <span class="no">r24</span>	<span class="err">;</span> <span class="mi">51</span>
+<span class="x"> </span>
+<span class="x">    // enable timer overflow interrupt</span>
+<span class="x">    TIMSK0 |=1&lt;&lt;TOIE0;</span>
+  <span class="nl">2e:</span>	<span class="mh">89 b7 </span>      	<span class="nf">in</span>	<span class="no">r24</span><span class="p">,</span> <span class="mi">0x39</span>	<span class="err">;</span> <span class="mi">57</span>
+  <span class="nl">30:</span>	<span class="mh">81 60 </span>      	<span class="nf">ori</span>	<span class="no">r24</span><span class="p">,</span> <span class="mi">0x01</span>	<span class="err">;</span> <span class="mi">1</span>
+  <span class="nl">32:</span>	<span class="mh">89 bf </span>      	<span class="nf">out</span>	<span class="mi">0x39</span><span class="p">,</span> <span class="no">r24</span>	<span class="err">;</span> <span class="mi">57</span>
+
+<span class="x">    // enable interrupts</span>
+<span class="x">    asm(&quot;sei&quot;);</span>
+  <span class="nl">34:</span>	<span class="mh">78 94 </span>      	<span class="nf">sei</span>
+<span class="x"> </span>
+<span class="x">    for(;;){</span>
+<span class="x">        asm(&quot;nop&quot;);</span>
+  <span class="nl">36:</span>	<span class="mh">00 00 </span>      	<span class="nf">nop</span>
+  <span class="nl">38:</span>	<span class="mh">00 c0 </span>      	<span class="nf">rjmp</span>	<span class="p">.</span><span class="err">+</span><span class="mi">0</span>      	<span class="err">;</span> <span class="mh">0x3a</span> <span class="p">&lt;</span><span class="no">__CCP__</span><span class="p">+</span><span class="mi">0x6</span><span class="p">&gt;</span>	<span class="mi">38</span><span class="p">:</span> <span class="no">R_AVR_13_PCREL</span>	<span class="no">.text</span><span class="err">+</span><span class="mi">0x36</span>
+</pre></div>
+<p><link href=pygments.css rel=stylesheet></p>
