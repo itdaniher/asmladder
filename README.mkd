@@ -1,4 +1,4 @@
-### asmladder - a proof of concept for a novel variable abstraction development
+### asmladder - a proof of concept for variable abstraction development
 
 this project is mostly just a low-hanging fruit implementation of a variable abstraction development environment.
 
