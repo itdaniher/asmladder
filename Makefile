@@ -20,6 +20,9 @@ main.elf: $(OBJECTS)
 disasm:	main.elf
 	avr-objdump -CSrw main.o > main.objdump
 
+mappings: main.elf
+	avr-objdump -dl main.o > main.objdump
+
 html: disasm
 	pygmentize -o main.html main.objdump
 	echo "<p><link href="pygments.css" rel="stylesheet"></p>" >> main.html
