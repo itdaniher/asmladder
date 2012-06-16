@@ -1,0 +1,51 @@
+### asmladder - a proof of concept for a novel variable abstraction development
+
+this project is mostly just a low-hanging fruit implementation of a variable abstraction development environment.
+
+embedded development is a hot topic these days - tools like the arduino have made it more accessible than ever before, at the cost of transparency, efficiency, and depth.
+
+the ability to write code in a [high level language](https://github.com/languages/CoffeeScript) and follow it all the way to the machine bytecode level would be invaluable.
+
+at the moment, this project simply uses avr-objdump to spit out a version of the disassembled object file with source code and assembly inlined. 
+
+pygments is used to process the objdump and render it as html.
+
+a custom css file is used to render this as a two-column page.
+
+for a demo of main.c, a simple blinky light program for the attiny microcontroller, see [main.html](http://itdaniher.github.com/asmladder/main.html)
+
+
+
+#### architecture-specific orientation for those of you foreign to embedded development
+
+the attiny is a family of 8b CPUs produced by the exceptional norwegian semiconductor company, Atmel.
+
+a basic [harvard architecture](http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.faqs/ka3839.html) reduced instruction set (RISC)  CPU with memory mapped IO, the attiny is a popular choice for projects.
+
+as per [the datasheet](http://www.atmel.com/Images/doc8183.pdf), the attiny44a includes the following features:
+
+* 120 Powerful Instructions – Most Single Clock Cycle Execution
+
+the instruction set is documented in [a lengthy pdf](http://www.atmel.com/Images/doc0856.pdf) but essentially maps a number of opcodes to arithmatic, bitmath, and flow control operations.
+
+for a "quick" summary, [the wikipedia page on the subject](http://en.wikipedia.org/wiki/AVR_instruction_set) isn't half bad.
+
+* 32 x 8 General Purpose Working Registers
+
+the registers are a set of 32 one-byte wide slots that CPU instructions can directly operate on
+
+* 4K Bytes of In-System, Self-programmable Flash Program Memory
+* 256 Bytes of In-System Programmable EEPROM
+* 256 Bytes of Internal SRAM
+
+the attiny has access to a few different memory spaces - one for data (eeprom), one for code (flash), and one for temporary storage (sram)
+
+additionally, there are 64 memory-mapped IO registers that expose the functionality of the following:
+
+* One 8-bit and One 16-bit Timer/Counter with Two PWM Channels, Each
+* 10-bit ADC
+* Programmable Watchdog Timer with Separate On-chip Oscillator
+* On-chip Analog Comparator
+* Universal Serial Interface
+
+these registers are described in the datasheet and listed in iotn44a.h. 
