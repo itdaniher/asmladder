@@ -1,9 +1,5 @@
 #include "iotn44a.h"
 
-
-#  define ISR(vector, ...) void vector (void) __attribute__ ((signal,__INTR_ATTRS)) __VA_ARGS__; void vector (void)
-
-
 ISR( TIM0_OVF_vect ) {
      PORTA ^= 1 << PINA1;
 }
@@ -20,9 +16,9 @@ int main(void) {
     TIMSK0 |=1<<TOIE0;
 
     // enable interrupts
-    asm("sei");
+    __asm("sei");
  
     for(;;){
-        asm("nop");
+        __asm("nop");
     }
 }
