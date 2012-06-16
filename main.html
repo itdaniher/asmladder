@@ -4,10 +4,7 @@
 Disassembly of section <span class="nl">.text</span><span class="p">:</span>
 
 <span class="mh">00000000</span> <span class="p">&lt;</span><span class="nf">__vector_11</span><span class="p">&gt;:</span>
-
-
-<span class="x">#  define ISR(vector, ...) void vector (void) __attribute__ ((signal,__INTR_ATTRS)) __VA_ARGS__; void vector (void)</span>
-
+<span class="x">#include &quot;iotn44a.h&quot;</span>
 
 <span class="x">ISR( TIM0_OVF_vect ) {</span>
    <span class="nl">0:</span>	<span class="mh">1f 92 </span>      	<span class="nf">push</span>	<span class="no">r1</span>
@@ -53,11 +50,11 @@ Disassembly of section <span class="nl">.text</span><span class="p">:</span>
   <span class="nl">32:</span>	<span class="mh">89 bf </span>      	<span class="nf">out</span>	<span class="mi">0x39</span><span class="p">,</span> <span class="no">r24</span>	<span class="err">;</span> <span class="mi">57</span>
 
 <span class="x">    // enable interrupts</span>
-<span class="x">    asm(&quot;sei&quot;);</span>
+<span class="x">    __asm(&quot;sei&quot;);</span>
   <span class="nl">34:</span>	<span class="mh">78 94 </span>      	<span class="nf">sei</span>
 <span class="x"> </span>
 <span class="x">    for(;;){</span>
-<span class="x">        asm(&quot;nop&quot;);</span>
+<span class="x">        __asm(&quot;nop&quot;);</span>
   <span class="nl">36:</span>	<span class="mh">00 00 </span>      	<span class="nf">nop</span>
   <span class="nl">38:</span>	<span class="mh">00 c0 </span>      	<span class="nf">rjmp</span>	<span class="p">.</span><span class="err">+</span><span class="mi">0</span>      	<span class="err">;</span> <span class="mh">0x3a</span> <span class="p">&lt;</span><span class="no">__CCP__</span><span class="p">+</span><span class="mi">0x6</span><span class="p">&gt;</span>	<span class="mi">38</span><span class="p">:</span> <span class="no">R_AVR_13_PCREL</span>	<span class="no">.text</span><span class="err">+</span><span class="mi">0x36</span>
 </pre></div>
