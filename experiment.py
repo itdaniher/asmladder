@@ -1,4 +1,6 @@
 import re
+import pprint
+import json
 
 # read object dump with inline line numbers
 fileobj = open("main.objdump").read()
@@ -33,33 +35,45 @@ filec = removeItems(matchInclude, filec)
 #filec = removeItems(matchFunctions, filec)
 
 
-# iterate through the dumped assembly and process it. 
-# when a reference is made to a line in the C code, print all the lines between the last and most recent reference.
-# parse lines from the dumped assembly and discard irrelevant information.
-
 last = 0
+functionList = []
+
 for function in functions:
-	for item in function:
-		if len(item) > 0:
+
+	functionList.append([])
+	lineList = []
+
+	if len(function) != 0:
+
+		for item in function:
+
 			if item[0] == '/': # if not a /path:number reference, then assume it to be assembly
+
 				lineNumber = int(item.split(':')[-1]) # determine the line number mentioned
 				relevantLines = filter(bool, filec[last:lineNumber]) # all the non-empty lines between last and current line numbers
 				comments = [item.replace('//', '').strip() for item in relevantLines if item.find('//') != -1]
 				code = [item.strip() for item in relevantLines if item.find('//') == -1]
-				print '\n'
-				print {'comment': comments}
-				print {'code': code}
+				lineList.append({'comment': comments})
+				lineList[-1].update({'code': code})
+				lineList[-1].update({'asm': []})
 				last = lineNumber
+
 			else:
+
 				item = item.split() # split the line
 				if item.count(';') > 0: 
 					item = item[0:item.index(';')]
 				try:
-					int(item[0]) 
-					print {"startFunction": item[1]}
+					int(item[0])
+					functionList[-1].append(re.sub('[<>:]', '', item[1]))
 				except:
+
 					if item[0].find('()') == -1:
 						item = item[3::] # discard line number and bytecode
-						item = (item[0], tuple([item.strip(',') for item in item[1::]]))
-						print {"asm": item}
-	print ''
+						item = [item[0], list([item.strip(',') for item in item[1::]])]
+						lineList[-1]['asm'].append(item)
+
+		functionList[-1].append(lineList)
+
+pprint.pprint(functionList)
+json.dumps(functionList, indent=1)
