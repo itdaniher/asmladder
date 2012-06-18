@@ -17,5 +17,5 @@ int main(void) {
 	// enable interrupts
 	__asm("sei");
 	// do nothing, forever
-	for(;;) { __asm("nop") }
+	for(;;) { __asm("nop"); } 
 }
