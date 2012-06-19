@@ -34,17 +34,7 @@
 
 #  define ISR(vector, ...) void vector (void) __attribute__ ((signal,__INTR_ATTRS)) __VA_ARGS__; void vector (void)
 
-#include <avr/sfr_defs.h>
-
-//#ifndef _AVR_IO_H_
-//#  error "Include <avr/io.h> instead of this file."
-//#endif
-
-#ifndef _AVR_IOXXX_H_
-#  define _AVR_IOXXX_H_ "iox32a4u.h"
-#else
-#  error "Attempt to include more than one <avr/ioXXX.h> file."
-#endif
+#include "sfr_defs.h"
 
 #ifndef _AVR_ATXMEGA32A4U_H_INCLUDED
 #define _AVR_ATXMEGA32A4U_H_INCLUDED
