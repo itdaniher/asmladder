@@ -1,13 +1,13 @@
 [
  [
-  "__vector_11", 
+  "__vector_14", 
   [
    {
     "comment": [
-     "overflow interrupt for TIM0"
+     "overflow interrupt for TCC0"
     ], 
     "code": [
-     "ISR( TIM0_OVF_vect ) {"
+     "ISR(TCC0_OVF_vect){"
     ], 
     "asm": [
      [
@@ -51,7 +51,13 @@
      [
       "push", 
       [
-       "r25"
+       "r30"
+      ]
+     ], 
+     [
+      "push", 
+      [
+       "r31"
       ]
      ]
     ]
@@ -61,34 +67,34 @@
      "toggle pin 1 of port A"
     ], 
     "code": [
-     "PORTA ^= 1 << PINA1;"
+     "PORTA.OUTTGL = PIN1_bm;"
     ], 
     "asm": [
      [
-      "in", 
+      "ldi", 
       [
        "r24", 
-       "0x1b"
+       "0x02"
       ]
      ], 
      [
       "ldi", 
       [
-       "r25", 
-       "0x02"
+       "r30", 
+       "0x00"
       ]
      ], 
      [
-      "eor", 
+      "ldi", 
       [
-       "r24", 
-       "r25"
+       "r31", 
+       "0x06"
       ]
      ], 
      [
-      "out", 
+      "std", 
       [
-       "0x1b", 
+       "Z+7", 
        "r24"
       ]
      ]
@@ -105,7 +111,13 @@
      [
       "pop", 
       [
-       "r25"
+       "r31"
+      ]
+     ], 
+     [
+      "pop", 
+      [
+       "r30"
       ]
      ], 
      [
@@ -156,7 +168,7 @@
     ], 
     "code": [
      "int main(void) {", 
-     "DDRA = 1 << PINA1;"
+     "PORTA.DIRSET = PIN1_bm;"
     ], 
     "asm": [
      [
@@ -167,9 +179,23 @@
       ]
      ], 
      [
-      "out", 
+      "ldi", 
       [
-       "0x1a", 
+       "r30", 
+       "0x00"
+      ]
+     ], 
+     [
+      "ldi", 
+      [
+       "r31", 
+       "0x06"
+      ]
+     ], 
+     [
+      "std", 
+      [
+       "Z+1", 
        "r24"
       ]
      ]
@@ -177,30 +203,39 @@
    }, 
    {
     "comment": [
-     "prescale timer to 1/1024th the clock rate"
+     "prescale timer to 1/8th the clock rate"
     ], 
     "code": [
-     "TCCR0B |= (1<<CS02) | (1<<CS00);"
+     "TCC0.CTRLA = TC_CLKSEL_DIV8_gc;"
     ], 
     "asm": [
      [
-      "in", 
+      "ldi", 
       [
-       "r24", 
-       "0x33"
+       "r30", 
+       "0x00"
       ]
      ], 
      [
-      "ori", 
+      "ldi", 
       [
-       "r24", 
-       "0x05"
+       "r31", 
+       "0x08"
       ]
      ], 
      [
-      "out", 
+      "ldi", 
       [
-       "0x33", 
+       "r24", 
+       "0x04"
+      ]
+     ], 
+     [
+      "00", 
+      [
+       "08", 
+       "sts", 
+       "0x0800", 
        "r24"
       ]
      ]
@@ -208,31 +243,86 @@
    }, 
    {
     "comment": [
-     "enable timer overflow interrupt"
+     "interrupt on timer overflow"
     ], 
     "code": [
-     "TIMSK0 |=1<<TOIE0;"
+     "TCC0.INTCTRLA = TC_OVFINTLVL_LO_gc;"
     ], 
     "asm": [
      [
-      "in", 
-      [
-       "r24", 
-       "0x39"
-      ]
-     ], 
-     [
-      "ori", 
+      "ldi", 
       [
        "r24", 
        "0x01"
       ]
      ], 
      [
-      "out", 
+      "std", 
       [
-       "0x39", 
+       "Z+6", 
        "r24"
+      ]
+     ]
+    ]
+   }, 
+   {
+    "comment": [
+     "set timer period to full 16b"
+    ], 
+    "code": [
+     "TCC0.PER = 0xFFFF;"
+    ], 
+    "asm": [
+     [
+      "ldi", 
+      [
+       "r24", 
+       "0xFF"
+      ]
+     ], 
+     [
+      "ldi", 
+      [
+       "r25", 
+       "0xFF"
+      ]
+     ], 
+     [
+      "std", 
+      [
+       "Z+39", 
+       "r25"
+      ]
+     ], 
+     [
+      "std", 
+      [
+       "Z+38", 
+       "r24"
+      ]
+     ]
+    ]
+   }, 
+   {
+    "comment": [
+     "initalize timer count at 0"
+    ], 
+    "code": [
+     "TCC0.CNT = 0;"
+    ], 
+    "asm": [
+     [
+      "std", 
+      [
+       "Z+33", 
+       "r1"
+      ]
+     ], 
+     [
+      "std", 
+      [
+       "Z+32", 
+       "r1"
       ]
      ]
     ]
