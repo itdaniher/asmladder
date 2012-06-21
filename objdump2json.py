@@ -68,8 +68,11 @@ for function in functions:
 
 					if item[0].find('()') == -1: # check to make sure that this isn't a function definition
 						item = item[3::] # discard line number and bytecode 
-						item = [item[0], list([item.strip(',') for item in item[1::]])] # kill extraneous commas
-						lineList[-1]['asm'].append(item) # append it to the asm object in the last line
+						again = {'opcode':item[0]}
+						registers = list([txt.strip(',') for txt in item[1::]])
+						for i in range(len(registers)):
+							again.update({'reg'+str(i):registers[i]})
+						lineList[-1]['asm'].append(again) # append it to the asm object in the last line
 
 		functionList[-1].append(lineList) # append the line to the list of lines of the last function
 
