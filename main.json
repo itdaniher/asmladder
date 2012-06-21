@@ -1,209 +1,57 @@
-[
- [
-  "__vector_11", 
-  [
-   {
-    "comment": [
-     "overflow interrupt for TIM0"
-    ], 
-    "code": [
-     "ISR( TIM0_OVF_vect ) {"
-    ], 
-    "asm": [
-     [
-      "push", 
-      [
-       "r1"
-      ]
-     ], 
-     [
-      "push", 
-      [
-       "r0"
-      ]
-     ], 
-     [
-      "in", 
-      [
-       "r0", 
-       "0x3f"
-      ]
-     ], 
-     [
-      "push", 
-      [
-       "r0"
-      ]
-     ], 
-     [
-      "eor", 
-      [
-       "r1", 
-       "r1"
-      ]
-     ], 
-     [
-      "push", 
-      [
-       "r24"
-      ]
-     ], 
-     [
-      "push", 
-      [
-       "r25"
-      ]
-     ]
-    ]
-   }, 
-   {
-    "comment": [
-     "toggle pin 1 of port A"
-    ], 
-    "code": [
-     "PORTA ^= 1 << PINA1;"
-    ], 
-    "asm": [
-     [
-      "in", 
-      [
-       "r24", 
-       "0x1b"
-      ]
-     ], 
-     [
-      "ldi", 
-      [
-       "r25", 
-       "0x02"
-      ]
-     ], 
-     [
-      "eor", 
-      [
-       "r24", 
-       "r25"
-      ]
-     ], 
-     [
-      "out", 
-      [
-       "0x1b", 
-       "r24"
-      ]
-     ]
-    ]
-   }, 
-   {
-    "comment": [
-     "exit interrupt"
-    ], 
-    "code": [
-     "}"
-    ], 
-    "asm": [
-     [
-      "pop", 
-      [
-       "r25"
-      ]
-     ], 
-     [
-      "pop", 
-      [
-       "r24"
-      ]
-     ], 
-     [
-      "pop", 
-      [
-       "r0"
-      ]
-     ], 
-     [
-      "out", 
-      [
-       "0x3f", 
-       "r0"
-      ]
-     ], 
-     [
-      "pop", 
-      [
-       "r0"
-      ]
-     ], 
-     [
-      "pop", 
-      [
-       "r1"
-      ]
-     ], 
-     [
-      "reti", 
-      []
-     ]
-    ]
-   }
-  ]
- ], 
- [
-  "main", 
-  [
-   {
-    "comment": [
-     "set up port A pin 1 mode to output"
-    ], 
-    "code": [
-     "int main(void) {", 
-     "DDRA = 1 << PINA1;"
-    ], 
-    "asm": [
-     [
-      "ldi", 
-      [
-       "r24", 
-       "0x02"
-      ]
-     ], 
-     [
-      "out", 
-      [
-       "0x1a", 
-       "r24"
-      ]
-     ]
-    ]
-   }, 
-   {
-    "comment": [
-     "prescale timer to 1/1024th the clock rate"
-    ], 
-    "code": [
-     "TCCR0B |= (1<<CS02) | (1<<CS00);"
-    ], 
-    "asm": [
-     [
-      "in", 
-      [
-       "r24", 
-       "0x33"
-      ]
-     ], 
-     [
-      "ori", 
-      [
-       "r24", 
-       "0x05"
-      ]
-     ], 
-     [
-      "out", 
-      [
-       "0x33", 
-       "r24"
-      ]
-     ]
+[['__vector_11',
+  [{'asm': [{'addr0': 'r1', 'opcode': 'push'},
+            {'addr0': 'r0', 'opcode': 'push'},
+            {'addr0': 'r0', 'addr1': '0x3f', 'opcode': 'in'},
+            {'addr0': 'r0', 'opcode': 'push'},
+            {'addr0': 'r1', 'addr1': 'r1', 'opcode': 'eor'},
+            {'addr0': 'r24', 'opcode': 'push'},
+            {'addr0': 'r25', 'opcode': 'push'}],
+    'code': ['ISR( TIM0_OVF_vect ) {'],
+    'comment': ['overflow interrupt for TIM0']},
+   {'asm': [{'addr0': 'r24', 'addr1': '0x1b', 'opcode': 'in'},
+            {'addr0': 'r25', 'addr1': '0x02', 'opcode': 'ldi'},
+            {'addr0': 'r24', 'addr1': 'r25', 'opcode': 'eor'},
+            {'addr0': '0x1b', 'addr1': 'r24', 'opcode': 'out'}],
+    'code': ['PORTA ^= 1 << PINA1;'],
+    'comment': ['toggle pin 1 of port A']},
+   {'asm': [{'addr0': 'r25', 'opcode': 'pop'},
+            {'addr0': 'r24', 'opcode': 'pop'},
+            {'addr0': 'r0', 'opcode': 'pop'},
+            {'addr0': '0x3f', 'addr1': 'r0', 'opcode': 'out'},
+            {'addr0': 'r0', 'opcode': 'pop'},
+            {'addr0': 'r1', 'opcode': 'pop'},
+            {'opcode': 'reti'}],
+    'code': ['}'],
+    'comment': ['exit interrupt']}]],
+ ['main',
+  [{'asm': [{'addr0': 'r24', 'addr1': '0x02', 'opcode': 'ldi'},
+            {'addr0': '0x1a', 'addr1': 'r24', 'opcode': 'out'}],
+    'code': ['int main(void) {', 'DDRA = 1 << PINA1;'],
+    'comment': ['set up port A pin 1 mode to output']},
+   {'asm': [{'addr0': 'r24', 'addr1': '0x33', 'opcode': 'in'},
+            {'addr0': 'r24', 'addr1': '0x05', 'opcode': 'ori'},
+            {'addr0': '0x33', 'addr1': 'r24', 'opcode': 'out'}],
+    'code': ['TCCR0B |= (1<<CS02) | (1<<CS00);'],
+    'comment': ['prescale timer to 1/1024th the clock rate']},
+   {'asm': [{'addr0': 'r24', 'addr1': '0x39', 'opcode': 'in'},
+            {'addr0': 'r24', 'addr1': '0x01', 'opcode': 'ori'},
+            {'addr0': '0x39', 'addr1': 'r24', 'opcode': 'out'}],
+    'code': ['TIMSK0 |=1<<TOIE0;'],
+    'comment': ['enable timer overflow interrupt']},
+   {'asm': [{'opcode': 'sei'}],
+    'code': ['__asm("sei");'],
+    'comment': ['enable interrupts']},
+   {'asm': [{'opcode': 'nop'}, {'addr0': '.+0', 'opcode': 'rjmp'}],
+    'code': ['for(;;) { __asm("nop"); }'],
+    'comment': ['do nothing, forever']}]]]
+  "addr0": "r24", 
+      "addr1": "0x05"
+     }, 
+     {
+      "opcode": "out", 
+      "addr0": "0x33", 
+      "addr1": "r24"
+     }
     ]
    }, 
    {
@@ -214,27 +62,21 @@
      "TIMSK0 |=1<<TOIE0;"
     ], 
     "asm": [
-     [
-      "in", 
-      [
-       "r24", 
-       "0x39"
-      ]
-     ], 
-     [
-      "ori", 
-      [
-       "r24", 
-       "0x01"
-      ]
-     ], 
-     [
-      "out", 
-      [
-       "0x39", 
-       "r24"
-      ]
-     ]
+     {
+      "opcode": "in", 
+      "addr0": "r24", 
+      "addr1": "0x39"
+     }, 
+     {
+      "opcode": "ori", 
+      "addr0": "r24", 
+      "addr1": "0x01"
+     }, 
+     {
+      "opcode": "out", 
+      "addr0": "0x39", 
+      "addr1": "r24"
+     }
     ]
    }, 
    {
@@ -245,10 +87,9 @@
      "__asm(\"sei\");"
     ], 
     "asm": [
-     [
-      "sei", 
-      []
-     ]
+     {
+      "opcode": "sei"
+     }
     ]
    }, 
    {
@@ -259,16 +100,13 @@
      "for(;;) { __asm(\"nop\"); }"
     ], 
     "asm": [
-     [
-      "nop", 
-      []
-     ], 
-     [
-      "rjmp", 
-      [
-       ".+0"
-      ]
-     ]
+     {
+      "opcode": "nop"
+     }, 
+     {
+      "opcode": "rjmp", 
+      "addr0": ".+0"
+     }
     ]
    }
   ]

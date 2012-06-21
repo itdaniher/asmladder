@@ -69,9 +69,9 @@ for function in functions:
 					if item[0].find('()') == -1: # check to make sure that this isn't a function definition
 						item = item[3::] # discard line number and bytecode 
 						cmd = {'opcode':item[0]} # build 'cmd' dictionary with opcode
-						registers = list([txt.strip(',') for txt in item[1::]]) # build list of opcode arguments
-						for i in range(len(registers)): # iterate over list
-							cmd.update({'reg'+str(i):registers[i]}) # for item in list, add a regx:value pair to 'cmd'
+						addrs = list([txt.strip(',') for txt in item[1::]]) # build list of opcode arguments
+						for i in range(len(addrs)): # iterate over list
+							cmd.update({'addr'+str(i):addrs[i]}) # for item in list, add a regx:value pair to 'cmd'
 						lineList[-1]['asm'].append(cmd) # append it to the asm object in the last line
 
 		functionList[-1].append(lineList) # append the line to the list of lines of the last function
