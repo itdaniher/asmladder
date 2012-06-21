@@ -10,210 +10,65 @@
      "ISR(TCC0_OVF_vect){"
     ], 
     "asm": [
-     [
-      "push", 
-      [
-       "r1"
-      ]
-     ], 
-     [
-      "push", 
-      [
-       "r0"
-      ]
-     ], 
-     [
-      "in", 
-      [
-       "r0", 
-       "0x3f"
-      ]
-     ], 
-     [
-      "push", 
-      [
-       "r0"
-      ]
-     ], 
-     [
-      "eor", 
-      [
-       "r1", 
-       "r1"
-      ]
-     ], 
-     [
-      "push", 
-      [
-       "r24"
-      ]
-     ], 
-     [
-      "push", 
-      [
-       "r30"
-      ]
-     ], 
-     [
-      "push", 
-      [
-       "r31"
-      ]
-     ]
-    ]
-   }, 
-   {
-    "comment": [
-     "toggle pin 1 of port A"
-    ], 
-    "code": [
-     "PORTA.OUTTGL = PIN1_bm;"
-    ], 
-    "asm": [
-     [
-      "ldi", 
-      [
-       "r24", 
-       "0x02"
-      ]
-     ], 
-     [
-      "ldi", 
-      [
-       "r30", 
-       "0x00"
-      ]
-     ], 
-     [
-      "ldi", 
-      [
-       "r31", 
-       "0x06"
-      ]
-     ], 
-     [
-      "std", 
-      [
-       "Z+7", 
-       "r24"
-      ]
-     ]
-    ]
-   }, 
-   {
-    "comment": [
-     "exit interrupt"
-    ], 
-    "code": [
-     "}"
-    ], 
-    "asm": [
-     [
-      "pop", 
-      [
-       "r31"
-      ]
-     ], 
-     [
-      "pop", 
-      [
-       "r30"
-      ]
-     ], 
-     [
-      "pop", 
-      [
-       "r24"
-      ]
-     ], 
-     [
-      "pop", 
-      [
-       "r0"
-      ]
-     ], 
-     [
-      "out", 
-      [
-       "0x3f", 
-       "r0"
-      ]
-     ], 
-     [
-      "pop", 
-      [
-       "r0"
-      ]
-     ], 
-     [
-      "pop", 
-      [
-       "r1"
-      ]
-     ], 
-     [
-      "reti", 
-      []
-     ]
-    ]
-   }
-  ]
- ], 
- [
-  "main", 
-  [
-   {
-    "comment": [
-     "set up port A pin 1 mode to output"
-    ], 
-    "code": [
-     "int main(void) {", 
-     "PORTA.DIRSET = PIN1_bm;"
-    ], 
-    "asm": [
-     [
-      "ldi", 
-      [
-       "r24", 
-       "0x02"
-      ]
-     ], 
-     [
-      "ldi", 
-      [
-       "r30", 
-       "0x00"
-      ]
-     ], 
-     [
-      "ldi", 
-      [
-       "r31", 
-       "0x06"
-      ]
-     ], 
-     [
-      "std", 
-      [
-       "Z+1", 
-       "r24"
-      ]
-     ]
-    ]
-   }, 
-   {
-    "comment": [
-     "prescale timer to 1/8th the clock rate"
-    ], 
-    "code": [
-     "TCC0.CTRLA = TC_CLKSEL_DIV8_gc;"
-    ], 
-    "asm": [
-     [
-      "ldi", 
-      [
-       "r30", 
-       "0x00"
+   [['__vector_14',
+  [{'asm': [['push', ['r1']],
+            ['push', ['r0']],
+            ['in', ['r0', '0x3f']],
+            ['push', ['r0']],
+            ['eor', ['r1', 'r1']],
+            ['push', ['r24']],
+            ['push', ['r30']],
+            ['push', ['r31']]],
+    'code': ['ISR(TCC0_OVF_vect){'],
+    'comment': ['overflow interrupt for TCC0']},
+   {'asm': [['ldi', ['r24', '0x02']],
+            ['ldi', ['r30', '0x00']],
+            ['ldi', ['r31', '0x06']],
+            ['std', ['Z+7', 'r24']]],
+    'code': ['PORTA.OUTTGL = PIN1_bm;'],
+    'comment': ['toggle pin 1 of port A']},
+   {'asm': [['pop', ['r31']],
+            ['pop', ['r30']],
+            ['pop', ['r24']],
+            ['pop', ['r0']],
+            ['out', ['0x3f', 'r0']],
+            ['pop', ['r0']],
+            ['pop', ['r1']],
+            ['reti', []]],
+    'code': ['}'],
+    'comment': ['exit interrupt']}]],
+ ['main',
+  [{'asm': [['ldi', ['r24', '0x02']],
+            ['ldi', ['r30', '0x00']],
+            ['ldi', ['r31', '0x06']],
+            ['std', ['Z+1', 'r24']]],
+    'code': ['int main(void) {', 'PORTA.DIRSET = PIN1_bm;'],
+    'comment': ['set up port A pin 1 mode to output']},
+   {'asm': [['ldi', ['r30', '0x00']],
+            ['ldi', ['r31', '0x08']],
+            ['ldi', ['r24', '0x04']],
+            ['00', ['08', 'sts', '0x0800', 'r24']]],
+    'code': ['TCC0.CTRLA = TC_CLKSEL_DIV8_gc;'],
+    'comment': ['prescale timer to 1/8th the clock rate']},
+   {'asm': [['ldi', ['r24', '0x01']], ['std', ['Z+6', 'r24']]],
+    'code': ['TCC0.INTCTRLA = TC_OVFINTLVL_LO_gc;'],
+    'comment': ['interrupt on timer overflow']},
+   {'asm': [['ldi', ['r24', '0xFF']],
+            ['ldi', ['r25', '0xFF']],
+            ['std', ['Z+39', 'r25']],
+            ['std', ['Z+38', 'r24']]],
+    'code': ['TCC0.PER = 0xFFFF;'],
+    'comment': ['set timer period to full 16b']},
+   {'asm': [['std', ['Z+33', 'r1']], ['std', ['Z+32', 'r1']]],
+    'code': ['TCC0.CNT = 0;'],
+    'comment': ['initalize timer count at 0']},
+   {'asm': [['sei', []]],
+    'code': ['__asm("sei");'],
+    'comment': ['enable interrupts']},
+   {'asm': [['nop', []], ['rjmp', ['.+0']]],
+    'code': ['for(;;) { __asm("nop"); }'],
+    'comment': ['do nothing, forever']}]]]
+0"
       ]
      ], 
      [
