@@ -38,7 +38,7 @@ functionList = []
 
 for function in functions:
 
-	functionList.append([])
+	functionList.append({'name':'', 'lines':''})
 	lineList = []
 
 	if len(function) != 0: # robustify the function parser by ignoring empty ones
@@ -63,7 +63,7 @@ for function in functions:
 					item = item[0:item.index(';')] # remove it, and everything after it
 				try: # check to see if the line starts with an offset
 					int(item[0]) # asm lines specifying function/offset start with an integer
-					functionList[-1].append(re.sub('[<>:]', '', item[1])) # use the string at index = 1 as the name of the function
+					functionList[-1]['name'] = re.sub('[<>:]', '', item[1]) # use the string at index = 1 as the name of the function
 				except:
 
 					if item[0].find('()') == -1: # check to make sure that this isn't a function definition
@@ -74,7 +74,7 @@ for function in functions:
 							cmd.update({'addr'+str(i):addrs[i]}) # for item in list, add a regx:value pair to 'cmd'
 						lineList[-1]['asm'].append(cmd) # append it to the asm object in the last line
 
-		functionList[-1].append(lineList) # append the line to the list of lines of the last function
+		functionList[-1]['lines'] = lineList # append the line to the list of lines of the last function
 
 pprint.pprint(functionList)
 open("main.json", "w").write(json.dumps(functionList, indent=1))

@@ -1,7 +1,6 @@
 [
- [
-  "__vector_11", 
-  [
+ {
+  "lines": [
    {
     "comment": [
      "overflow interrupt for TIM0"
@@ -110,11 +109,11 @@
      }
     ]
    }
-  ]
- ], 
- [
-  "main", 
-  [
+  ], 
+  "name": "__vector_11"
+ }, 
+ {
+  "lines": [
    {
     "comment": [
      "set up port A pin 1 mode to output"
@@ -216,6 +215,7 @@
      }
     ]
    }
-  ]
- ]
+  ], 
+  "name": "main"
+ }
 ]
