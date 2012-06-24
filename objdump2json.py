@@ -76,5 +76,7 @@ for function in functions:
 
 		functionList[-1]['lines'] = lineList # append the line to the list of lines of the last function
 
+functionList = {"functions":functionList}
+
 pprint.pprint(functionList)
 open("main.json", "w").write(json.dumps(functionList, indent=1))
