@@ -2,13 +2,11 @@
 .line:hover * {
 	font-size: 16px;
 }
-.function {
-	padding-top: 20px;
-}
 .code {
-	padding: 28px;
+	padding: 16px;
 }
 .comment {
+	padding: 16px;
 	margin-left: 300px;
 }
 .asm {
@@ -31,12 +29,9 @@ body{
     max-width: 960px;
     font-size: 14px;
 }
-h1, h2, h3, h4 {
-    color: #111111;
-    font-weight: 400;
-    padding: 0;
-}
 h3 {
+    padding: 0;
+    color: #111111;
 	margin-left: 100px;
 	font-family: 'Inconsolata', bold, sans-serif;
 	float:right;
