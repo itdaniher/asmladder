@@ -6,15 +6,11 @@ embedded development is a hot topic these days - tools like the arduino have mad
 
 the ability to write code in a [high level language](https://github.com/languages/CoffeeScript) and follow it all the way to the machine bytecode level would be invaluable.
 
-at the moment, this project simply uses avr-objdump to spit out a version of the disassembled object file with source code and assembly inlined. 
+the avr toolchain is used to compile main.c and disassemble it. 
 
-pygments is used to process the objdump and render it as html.
-
-a custom css file is used to render this as a two-column page.
+a python script is used to parse the assembly and c code to a json datastructure, which is rendered as html/css.
 
 for a demo of main.c, a simple blinky light program for the attiny microcontroller, see [main.html](http://itdaniher.github.com/asmladder/main.html)
-
-
 
 #### architecture-specific orientation for those of you foreign to embedded development
 
