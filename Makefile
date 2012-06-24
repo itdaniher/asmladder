@@ -6,7 +6,7 @@ OBJECTS = main.o
 
 COMPILE = avr-gcc -std=c99 -g -O3 -DF_CPU=$(F_CPU) $(CFLAGS) -mmcu=$(DEVICE)
 
-main.html: html
+main.json: json
 
 clean:
 	rm -f main.hex  main.objdump main.elf main.o main.html
@@ -26,3 +26,6 @@ mappings: main.o
 html: disasm
 	pygmentize -o main.html main.objdump
 	echo "<p><link href="pygments.css" rel="stylesheet"></p>" >> main.html
+
+json: mappings
+	python objdump2json.py

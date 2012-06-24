@@ -1,0 +1,223 @@
+{
+ "functions": [
+  {
+   "lines": [
+    {
+     "comment": [
+      "overflow interrupt for TIM0"
+     ], 
+     "code": [
+      "ISR( TIM0_OVF_vect ) {"
+     ], 
+     "asm": [
+      {
+       "opcode": "push", 
+       "addr0": "r1"
+      }, 
+      {
+       "opcode": "push", 
+       "addr0": "r0"
+      }, 
+      {
+       "opcode": "in", 
+       "addr0": "r0", 
+       "addr1": "0x3f"
+      }, 
+      {
+       "opcode": "push", 
+       "addr0": "r0"
+      }, 
+      {
+       "opcode": "eor", 
+       "addr0": "r1", 
+       "addr1": "r1"
+      }, 
+      {
+       "opcode": "push", 
+       "addr0": "r24"
+      }, 
+      {
+       "opcode": "push", 
+       "addr0": "r25"
+      }
+     ]
+    }, 
+    {
+     "comment": [
+      "toggle pin 1 of port A"
+     ], 
+     "code": [
+      "PORTA ^= 1 << PINA1;"
+     ], 
+     "asm": [
+      {
+       "opcode": "in", 
+       "addr0": "r24", 
+       "addr1": "0x1b"
+      }, 
+      {
+       "opcode": "ldi", 
+       "addr0": "r25", 
+       "addr1": "0x02"
+      }, 
+      {
+       "opcode": "eor", 
+       "addr0": "r24", 
+       "addr1": "r25"
+      }, 
+      {
+       "opcode": "out", 
+       "addr0": "0x1b", 
+       "addr1": "r24"
+      }
+     ]
+    }, 
+    {
+     "comment": [
+      "exit interrupt"
+     ], 
+     "code": [
+      "}"
+     ], 
+     "asm": [
+      {
+       "opcode": "pop", 
+       "addr0": "r25"
+      }, 
+      {
+       "opcode": "pop", 
+       "addr0": "r24"
+      }, 
+      {
+       "opcode": "pop", 
+       "addr0": "r0"
+      }, 
+      {
+       "opcode": "out", 
+       "addr0": "0x3f", 
+       "addr1": "r0"
+      }, 
+      {
+       "opcode": "pop", 
+       "addr0": "r0"
+      }, 
+      {
+       "opcode": "pop", 
+       "addr0": "r1"
+      }, 
+      {
+       "opcode": "reti"
+      }
+     ]
+    }
+   ], 
+   "name": "__vector_11"
+  }, 
+  {
+   "lines": [
+    {
+     "comment": [
+      "set up port A pin 1 mode to output"
+     ], 
+     "code": [
+      "int main(void) {", 
+      "DDRA = 1 << PINA1;"
+     ], 
+     "asm": [
+      {
+       "opcode": "ldi", 
+       "addr0": "r24", 
+       "addr1": "0x02"
+      }, 
+      {
+       "opcode": "out", 
+       "addr0": "0x1a", 
+       "addr1": "r24"
+      }
+     ]
+    }, 
+    {
+     "comment": [
+      "prescale timer to 1/1024th the clock rate"
+     ], 
+     "code": [
+      "TCCR0B |= (1<<CS02) | (1<<CS00);"
+     ], 
+     "asm": [
+      {
+       "opcode": "in", 
+       "addr0": "r24", 
+       "addr1": "0x33"
+      }, 
+      {
+       "opcode": "ori", 
+       "addr0": "r24", 
+       "addr1": "0x05"
+      }, 
+      {
+       "opcode": "out", 
+       "addr0": "0x33", 
+       "addr1": "r24"
+      }
+     ]
+    }, 
+    {
+     "comment": [
+      "enable timer overflow interrupt"
+     ], 
+     "code": [
+      "TIMSK0 |=1<<TOIE0;"
+     ], 
+     "asm": [
+      {
+       "opcode": "in", 
+       "addr0": "r24", 
+       "addr1": "0x39"
+      }, 
+      {
+       "opcode": "ori", 
+       "addr0": "r24", 
+       "addr1": "0x01"
+      }, 
+      {
+       "opcode": "out", 
+       "addr0": "0x39", 
+       "addr1": "r24"
+      }
+     ]
+    }, 
+    {
+     "comment": [
+      "enable interrupts"
+     ], 
+     "code": [
+      "__asm(\"sei\");"
+     ], 
+     "asm": [
+      {
+       "opcode": "sei"
+      }
+     ]
+    }, 
+    {
+     "comment": [
+      "do nothing, forever"
+     ], 
+     "code": [
+      "for(;;) { __asm(\"nop\"); }"
+     ], 
+     "asm": [
+      {
+       "opcode": "nop"
+      }, 
+      {
+       "opcode": "rjmp", 
+       "addr0": ".+0"
+      }
+     ]
+    }
+   ], 
+   "name": "main"
+  }
+ ]
+}
