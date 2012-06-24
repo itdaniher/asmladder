@@ -78,5 +78,6 @@ for function in functions:
 
 functionList = {"functions":functionList}
 
-pprint.pprint(functionList)
-open("main.json", "w").write(json.dumps(functionList, indent=1))
+import pystache
+
+open('main.html', 'w').write(pystache.render(open("main.stache").read(), functionList))
