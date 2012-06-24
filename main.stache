@@ -1,21 +1,25 @@
 <html>
-<head>
-<title>asmladder</title>
-</head>
-<body>
-{{#functions}}
-<h3 class="name">{{name}}</h3>
-{{#lines}}
-{{#comment}}<div class="comment">{{.}}</div>{{/comment}}
-{{#code}}<div class="code">{{.}}</div>{{/code}}
-{{#asm}}
-<div class="asm">
-<span class="opcode">{{opcode}}</span>
-<span class="addr0">{{addr0}}</span>
-<span class="addr1">{{addr1}}</span>
-</div>
-{{/asm}}
-{{/lines}}
-{{/functions}}
-</body>
+	<head>
+		<meta charset='utf-8'>
+		<link href="asmladder.css" rel="stylesheet">
+		<title>asmladder</title>
+	</head>
+	<body>
+		{{#functions}}
+		<h3 class="name">{{name}}</h3>
+		<span class="{{name}}">
+		{{#lines}}
+			{{#code}}<div class="code">{{.}}</div>{{/code}}
+			{{#comment}}<div class="comment">{{.}}</div>{{/comment}}
+			{{#asm}}
+			<div class="asm">
+				<span class="opcode">{{opcode}}</span>
+				<span class="addr0">{{addr0}}</span>
+				<span class="addr1">{{addr1}}</span>
+			</div>
+			{{/asm}}
+		{{/lines}}
+		</span>
+		{{/functions}}
+	</body>
 </html>
