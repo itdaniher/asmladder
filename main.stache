@@ -1,14 +1,16 @@
 <html>
 	<head>
 		<meta charset='utf-8'>
+		<link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
 		<link href="asmladder.css" rel="stylesheet">
 		<title>asmladder</title>
 	</head>
 	<body>
 		{{#functions}}
+		<span class="function">
 		<h3 class="name">{{name}}</h3>
-		<span class="{{name}}">
 		{{#lines}}
+			<span class="line">
 			{{#code}}<div class="code">{{.}}</div>{{/code}}
 			{{#comment}}<div class="comment">{{.}}</div>{{/comment}}
 			{{#asm}}
@@ -18,8 +20,10 @@
 				<span class="addr1">{{addr1}}</span>
 			</div>
 			{{/asm}}
+			</span>
 		{{/lines}}
 		</span>
+		<hr>
 		{{/functions}}
 	</body>
 </html>
