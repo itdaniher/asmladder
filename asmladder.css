@@ -1,12 +1,6 @@
 /* color scheme from http://colorschemedesigner.com/#3i61Jw0w0w0w0 */
 .line:hover * {
 	font-size: 16px;
-	margin-bottom: 0px;
-	margin-bottom: 0px;
-}
-.line {
-	margin-top: 1px;
-	margin-bottom: 1px;
 }
 .function {
 	padding-top: 20px;
@@ -33,7 +27,7 @@ body{
     margin: 0 auto;
 	font-family: 'Inconsolata', sans-serif;
     color: #444444;
-    line-height: 1;
+    line-height: 16px;
     max-width: 960px;
     font-size: 14px;
 }
@@ -49,11 +43,7 @@ h3 {
     font-size: 24px;
 }
 hr {
+    max-width: 800px;
 	margin-top:25px;
 	margin-bottom:25px;
 }
-a:hover {
-    text-decoration: none;
-    color: #ff6600;
-}
-

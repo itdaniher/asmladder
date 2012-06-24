@@ -1,393 +1,195 @@
 <html>
- <head>
-  <meta charset="utf-8"/>
-  <link href="http://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css"/>
-  <link href="asmladder.css" rel="stylesheet"/>
-  <title>
-   asmladder
-  </title>
- </head>
- <body>
-  <span class="function">
-   <h3 class="name">
-    __vector_11
-   </h3>
-   <span class="line">
-    <div class="code">
-     ISR( TIM0_OVF_vect ) {
-    </div>
-    <div class="comment">
-     overflow interrupt for TIM0
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      push
-     </span>
-     <span class="addr0">
-      r1
-     </span>
-     <span class="addr1">
-     </span>
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      push
-     </span>
-     <span class="addr0">
-      r0
-     </span>
-     <span class="addr1">
-     </span>
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      in
-     </span>
-     <span class="addr0">
-      r0
-     </span>
-     <span class="addr1">
-      0x3f
-     </span>
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      push
-     </span>
-     <span class="addr0">
-      r0
-     </span>
-     <span class="addr1">
-     </span>
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      eor
-     </span>
-     <span class="addr0">
-      r1
-     </span>
-     <span class="addr1">
-      r1
-     </span>
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      push
-     </span>
-     <span class="addr0">
-      r24
-     </span>
-     <span class="addr1">
-     </span>
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      push
-     </span>
-     <span class="addr0">
-      r25
-     </span>
-     <span class="addr1">
-     </span>
-    </div>
-   </span>
-   <span class="line">
-    <div class="code">
-     PORTA ^= 1 &lt;&lt; PINA1;
-    </div>
-    <div class="comment">
-     toggle pin 1 of port A
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      in
-     </span>
-     <span class="addr0">
-      r24
-     </span>
-     <span class="addr1">
-      0x1b
-     </span>
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      ldi
-     </span>
-     <span class="addr0">
-      r25
-     </span>
-     <span class="addr1">
-      0x02
-     </span>
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      eor
-     </span>
-     <span class="addr0">
-      r24
-     </span>
-     <span class="addr1">
-      r25
-     </span>
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      out
-     </span>
-     <span class="addr0">
-      0x1b
-     </span>
-     <span class="addr1">
-      r24
-     </span>
-    </div>
-   </span>
-   <span class="line">
-    <div class="code">
-     }
-    </div>
-    <div class="comment">
-     exit interrupt
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      pop
-     </span>
-     <span class="addr0">
-      r25
-     </span>
-     <span class="addr1">
-     </span>
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      pop
-     </span>
-     <span class="addr0">
-      r24
-     </span>
-     <span class="addr1">
-     </span>
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      pop
-     </span>
-     <span class="addr0">
-      r0
-     </span>
-     <span class="addr1">
-     </span>
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      out
-     </span>
-     <span class="addr0">
-      0x3f
-     </span>
-     <span class="addr1">
-      r0
-     </span>
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      pop
-     </span>
-     <span class="addr0">
-      r0
-     </span>
-     <span class="addr1">
-     </span>
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      pop
-     </span>
-     <span class="addr0">
-      r1
-     </span>
-     <span class="addr1">
-     </span>
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      reti
-     </span>
-     <span class="addr0">
-     </span>
-     <span class="addr1">
-     </span>
-    </div>
-   </span>
-  </span>
-  <hr/>
-  <span class="function">
-   <h3 class="name">
-    main
-   </h3>
-   <span class="line">
-    <div class="code">
-     int main(void) {
-    </div>
-    <div class="code">
-     DDRA = 1 &lt;&lt; PINA1;
-    </div>
-    <div class="comment">
-     set up port A pin 1 mode to output
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      ldi
-     </span>
-     <span class="addr0">
-      r24
-     </span>
-     <span class="addr1">
-      0x02
-     </span>
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      out
-     </span>
-     <span class="addr0">
-      0x1a
-     </span>
-     <span class="addr1">
-      r24
-     </span>
-    </div>
-   </span>
-   <span class="line">
-    <div class="code">
-     TCCR0B |= (1&lt;&lt;CS02) | (1&lt;&lt;CS00);
-    </div>
-    <div class="comment">
-     prescale timer to 1/1024th the clock rate
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      in
-     </span>
-     <span class="addr0">
-      r24
-     </span>
-     <span class="addr1">
-      0x33
-     </span>
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      ori
-     </span>
-     <span class="addr0">
-      r24
-     </span>
-     <span class="addr1">
-      0x05
-     </span>
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      out
-     </span>
-     <span class="addr0">
-      0x33
-     </span>
-     <span class="addr1">
-      r24
-     </span>
-    </div>
-   </span>
-   <span class="line">
-    <div class="code">
-     TIMSK0 |=1&lt;&lt;TOIE0;
-    </div>
-    <div class="comment">
-     enable timer overflow interrupt
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      in
-     </span>
-     <span class="addr0">
-      r24
-     </span>
-     <span class="addr1">
-      0x39
-     </span>
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      ori
-     </span>
-     <span class="addr0">
-      r24
-     </span>
-     <span class="addr1">
-      0x01
-     </span>
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      out
-     </span>
-     <span class="addr0">
-      0x39
-     </span>
-     <span class="addr1">
-      r24
-     </span>
-    </div>
-   </span>
-   <span class="line">
-    <div class="code">
-     __asm("sei");
-    </div>
-    <div class="comment">
-     enable interrupts
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      sei
-     </span>
-     <span class="addr0">
-     </span>
-     <span class="addr1">
-     </span>
-    </div>
-   </span>
-   <span class="line">
-    <div class="code">
-     for(;;) { __asm("nop"); }
-    </div>
-    <div class="comment">
-     do nothing, forever
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      nop
-     </span>
-     <span class="addr0">
-     </span>
-     <span class="addr1">
-     </span>
-    </div>
-    <div class="asm">
-     <span class="opcode">
-      rjmp
-     </span>
-     <span class="addr0">
-      .+0
-     </span>
-     <span class="addr1">
-     </span>
-    </div>
-   </span>
-  </span>
-  <hr/>
- </body>
+	<head>
+		<meta charset='utf-8'>
+		<link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+		<link href="asmladder.css" rel="stylesheet">
+		<title>asmladder</title>
+	</head>
+	<body>
+		<span class="function">
+		<h3 class="name">__vector_11</h3>
+			<span class="line">
+			<div class="code">ISR( TIM0_OVF_vect ) {</div>
+			<div class="comment">overflow interrupt for TIM0</div>
+			<div class="asm">
+				<span class="opcode">push</span>
+				<span class="addr0">r1</span>
+				<span class="addr1"></span>
+			</div>
+			<div class="asm">
+				<span class="opcode">push</span>
+				<span class="addr0">r0</span>
+				<span class="addr1"></span>
+			</div>
+			<div class="asm">
+				<span class="opcode">in</span>
+				<span class="addr0">r0</span>
+				<span class="addr1">0x3f</span>
+			</div>
+			<div class="asm">
+				<span class="opcode">push</span>
+				<span class="addr0">r0</span>
+				<span class="addr1"></span>
+			</div>
+			<div class="asm">
+				<span class="opcode">eor</span>
+				<span class="addr0">r1</span>
+				<span class="addr1">r1</span>
+			</div>
+			<div class="asm">
+				<span class="opcode">push</span>
+				<span class="addr0">r24</span>
+				<span class="addr1"></span>
+			</div>
+			<div class="asm">
+				<span class="opcode">push</span>
+				<span class="addr0">r25</span>
+				<span class="addr1"></span>
+			</div>
+			</span>
+			<span class="line">
+			<div class="code">PORTA ^= 1 &lt;&lt; PINA1;</div>
+			<div class="comment">toggle pin 1 of port A</div>
+			<div class="asm">
+				<span class="opcode">in</span>
+				<span class="addr0">r24</span>
+				<span class="addr1">0x1b</span>
+			</div>
+			<div class="asm">
+				<span class="opcode">ldi</span>
+				<span class="addr0">r25</span>
+				<span class="addr1">0x02</span>
+			</div>
+			<div class="asm">
+				<span class="opcode">eor</span>
+				<span class="addr0">r24</span>
+				<span class="addr1">r25</span>
+			</div>
+			<div class="asm">
+				<span class="opcode">out</span>
+				<span class="addr0">0x1b</span>
+				<span class="addr1">r24</span>
+			</div>
+			</span>
+			<span class="line">
+			<div class="code">}</div>
+			<div class="comment">exit interrupt</div>
+			<div class="asm">
+				<span class="opcode">pop</span>
+				<span class="addr0">r25</span>
+				<span class="addr1"></span>
+			</div>
+			<div class="asm">
+				<span class="opcode">pop</span>
+				<span class="addr0">r24</span>
+				<span class="addr1"></span>
+			</div>
+			<div class="asm">
+				<span class="opcode">pop</span>
+				<span class="addr0">r0</span>
+				<span class="addr1"></span>
+			</div>
+			<div class="asm">
+				<span class="opcode">out</span>
+				<span class="addr0">0x3f</span>
+				<span class="addr1">r0</span>
+			</div>
+			<div class="asm">
+				<span class="opcode">pop</span>
+				<span class="addr0">r0</span>
+				<span class="addr1"></span>
+			</div>
+			<div class="asm">
+				<span class="opcode">pop</span>
+				<span class="addr0">r1</span>
+				<span class="addr1"></span>
+			</div>
+			<div class="asm">
+				<span class="opcode">reti</span>
+				<span class="addr0"></span>
+				<span class="addr1"></span>
+			</div>
+			</span>
+		</span>
+		<hr>
+		<span class="function">
+		<h3 class="name">main</h3>
+			<span class="line">
+			<div class="code">int main(void) {</div><div class="code">DDRA = 1 &lt;&lt; PINA1;</div>
+			<div class="comment">set up port A pin 1 mode to output</div>
+			<div class="asm">
+				<span class="opcode">ldi</span>
+				<span class="addr0">r24</span>
+				<span class="addr1">0x02</span>
+			</div>
+			<div class="asm">
+				<span class="opcode">out</span>
+				<span class="addr0">0x1a</span>
+				<span class="addr1">r24</span>
+			</div>
+			</span>
+			<span class="line">
+			<div class="code">TCCR0B |= (1&lt;&lt;CS02) | (1&lt;&lt;CS00);</div>
+			<div class="comment">prescale timer to 1/1024th the clock rate</div>
+			<div class="asm">
+				<span class="opcode">in</span>
+				<span class="addr0">r24</span>
+				<span class="addr1">0x33</span>
+			</div>
+			<div class="asm">
+				<span class="opcode">ori</span>
+				<span class="addr0">r24</span>
+				<span class="addr1">0x05</span>
+			</div>
+			<div class="asm">
+				<span class="opcode">out</span>
+				<span class="addr0">0x33</span>
+				<span class="addr1">r24</span>
+			</div>
+			</span>
+			<span class="line">
+			<div class="code">TIMSK0 |=1&lt;&lt;TOIE0;</div>
+			<div class="comment">enable timer overflow interrupt</div>
+			<div class="asm">
+				<span class="opcode">in</span>
+				<span class="addr0">r24</span>
+				<span class="addr1">0x39</span>
+			</div>
+			<div class="asm">
+				<span class="opcode">ori</span>
+				<span class="addr0">r24</span>
+				<span class="addr1">0x01</span>
+			</div>
+			<div class="asm">
+				<span class="opcode">out</span>
+				<span class="addr0">0x39</span>
+				<span class="addr1">r24</span>
+			</div>
+			</span>
+			<span class="line">
+			<div class="code">__asm(&quot;sei&quot;);</div>
+			<div class="comment">enable interrupts</div>
+			<div class="asm">
+				<span class="opcode">sei</span>
+				<span class="addr0"></span>
+				<span class="addr1"></span>
+			</div>
+			</span>
+			<span class="line">
+			<div class="code">for(;;) { __asm(&quot;nop&quot;); }</div>
+			<div class="comment">do nothing, forever</div>
+			<div class="asm">
+				<span class="opcode">nop</span>
+				<span class="addr0"></span>
+				<span class="addr1"></span>
+			</div>
+			<div class="asm">
+				<span class="opcode">rjmp</span>
+				<span class="addr0">.+0</span>
+				<span class="addr1"></span>
+			</div>
+			</span>
+		</span>
+		<hr>
+	</body>
 </html>
