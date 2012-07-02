@@ -44,7 +44,7 @@ for function in functions:
 
 	for item in function: # iterate through the lists of lines
 
-		if re.match("(.*/.*)+:\d+", item): # if not a /path:number reference, then assume it to be assembly
+		if re.match("(.*/.*)+:\d+", item):
 
 			lineNumber = int(item.split(':')[-1]) # determine the line number mentioned
 			relevantLines = filter(bool, filec[last:lineNumber]) # all the non-empty lines between last and current line numbers
@@ -55,16 +55,14 @@ for function in functions:
 			lineList[-1].update({'asm': []}) # make an empty dictionary for the parsed ASM
 			last = lineNumber 
 
+		elif re.match("\w{8} <(.*)>:", item):
+			functionList[-1]['name'] = re.match("\w{8} <(.*)>:", item).groups()[0]
+		elif re.match("\w+\(\):", item):
+			pass
 		else:
-
-			if re.match("\w{8} <(.*)>:", item):
-				functionList[-1]['name'] = re.match("\w{8} <(.*)>:", item).groups()[0]
-			elif re.match("\w+\(\):", item):
-				pass
-			else:
-				cmd = re.search("\s+\t(?P<opcode>\w+)\t?(?P<addr0>[\w.+]+)?(, (?P<addr1>\w+))?.*", item).groupdict()
-				cmd = dict([ (k, v) for k, v in cmd.iteritems() if v ])
-				lineList[-1]['asm'].append(cmd) # append it to the asm object in the last line
+			cmd = re.search("\s+\t(?P<opcode>\w+)\t?(?P<addr0>[\w.+]+)?(, (?P<addr1>\w+))?.*", item).groupdict()
+			cmd = dict([ (k, v) for k, v in cmd.iteritems() if v ])
+			lineList[-1]['asm'].append(cmd) # append it to the asm object in the last line
 
 	functionList[-1]['lines'] = lineList # append the line to the list of lines of the last function
 
