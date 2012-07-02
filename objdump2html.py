@@ -7,6 +7,7 @@ fileobj = open("main.objdump").read()
 fileobj = fileobj.split('\n')[6:-1]
 
 functions = [item.split('\n') for item in '\n'.join(fileobj).split('\n\n')]
+functions = filter(bool, functions)
 
 # read source file
 filec = open("main.c").read()
@@ -41,40 +42,43 @@ for function in functions:
 	functionList.append({'name':'', 'lines':''})
 	lineList = []
 
-	if len(function) != 0: # robustify the function parser by ignoring empty ones
+	for item in function: # iterate through the lists of lines
 
-		for item in function: # iterate through the lists of lines
+		if item[0] == '/': # if not a /path:number reference, then assume it to be assembly
 
-			if item[0] == '/': # if not a /path:number reference, then assume it to be assembly
+			lineNumber = int(item.split(':')[-1]) # determine the line number mentioned
+			relevantLines = filter(bool, filec[last:lineNumber]) # all the non-empty lines between last and current line numbers
+			comments = [item.replace('//', '').strip() for item in relevantLines if item.find('//') != -1] # parse source code lines for comments
+			code = [item.strip() for item in relevantLines if item.find('//') == -1] # clean lines
+			lineList.append({'comment': comments}) # make new dictionary in lineList, add comments
+			lineList[-1].update({'code': code}) # append the raw C code
+			lineList[-1].update({'asm': []}) # make an empty dictionary for the parsed ASM
+			last = lineNumber 
 
-				lineNumber = int(item.split(':')[-1]) # determine the line number mentioned
-				relevantLines = filter(bool, filec[last:lineNumber]) # all the non-empty lines between last and current line numbers
-				comments = [item.replace('//', '').strip() for item in relevantLines if item.find('//') != -1] # parse source code lines for comments
-				code = [item.strip() for item in relevantLines if item.find('//') == -1] # clean lines
-				lineList.append({'comment': comments}) # make new dictionary in lineList, add comments
-				lineList[-1].update({'code': code}) # append the raw C code
-				lineList[-1].update({'asm': []}) # make an empty dictionary for the parsed ASM
-				last = lineNumber 
+		else:
 
-			else:
+			item = item.split() # split the line
 
-				item = item.split() # split the line
-				if item.count(';') > 0: # if the line contains a semicolon
-					item = item[0:item.index(';')] # remove it, and everything after it
-				try: # check to see if the line starts with an offset
-					int(item[0]) # asm lines specifying function/offset start with an integer
-					functionList[-1]['name'] = re.sub('[<>:]', '', item[1]) # use the string at index = 1 as the name of the function
-				except:
+			if item.count(';') > 0: # if the line contains a semicolon
+				item = item[0:item.index(';')] # remove it, and everything after it
 
-					if item[0].find('()') == -1: # check to make sure that this isn't a function definition
-						item = item[3::] # discard line number and bytecode 
-						cmd = {'opcode':item[0]} # build 'cmd' dictionary with opcode
-						addrs = list([txt.strip(',') for txt in item[1::]]) # build list of opcode arguments
-						for i in range(len(addrs)): # iterate over list
-							cmd.update({'addr'+str(i):addrs[i]}) # for item in list, add a regx:value pair to 'cmd'
-						lineList[-1]['asm'].append(cmd) # append it to the asm object in the last line
+			try: # check to see if the line starts with an offset
 
-		functionList[-1]['lines'] = lineList # append the line to the list of lines of the last function
+				int(item[0]) # asm lines specifying function/offset start with an integer
+				functionList[-1]['name'] = re.sub('[<>:]', '', item[1]) # use the string at index = 1 as the name of the function
+
+			except:
+
+				if item[0].find('()') == -1: # check to make sure that this isn't a function definition
+
+					item = item[3::] # discard line number and bytecode 
+					cmd = {'opcode':item[0]} # build 'cmd' dictionary with opcode
+					addrs = list([txt.strip(',') for txt in item[1::]]) # build list of opcode arguments
+					for i in range(len(addrs)): # iterate over list
+						cmd.update({'addr'+str(i):addrs[i]}) # for item in list, add a regx:value pair to 'cmd'
+					lineList[-1]['asm'].append(cmd) # append it to the asm object in the last line
+
+	functionList[-1]['lines'] = lineList # append the line to the list of lines of the last function
 
 functionList = {"functions":functionList}
 
