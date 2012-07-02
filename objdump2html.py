@@ -57,26 +57,14 @@ for function in functions:
 
 		else:
 
-			item = item.split() # split the line
-
-			if item.count(';') > 0: # if the line contains a semicolon
-				item = item[0:item.index(';')] # remove it, and everything after it
-
-			try: # check to see if the line starts with an offset
-
-				int(item[0]) # asm lines specifying function/offset start with an integer
-				functionList[-1]['name'] = re.sub('[<>:]', '', item[1]) # use the string at index = 1 as the name of the function
-
-			except:
-
-				if item[0].find('()') == -1: # check to make sure that this isn't a function definition
-
-					item = item[3::] # discard line number and bytecode 
-					cmd = {'opcode':item[0]} # build 'cmd' dictionary with opcode
-					addrs = list([txt.strip(',') for txt in item[1::]]) # build list of opcode arguments
-					for i in range(len(addrs)): # iterate over list
-						cmd.update({'addr'+str(i):addrs[i]}) # for item in list, add a regx:value pair to 'cmd'
-					lineList[-1]['asm'].append(cmd) # append it to the asm object in the last line
+			if re.match("\w{8} <(.*)>:", item):
+				functionList[-1]['name'] = re.match("\w{8} <(.*)>:", item).groups()[0]
+			elif re.match("\w+\(\):", item):
+				pass
+			else:
+				cmd = re.search("\s+\t(?P<opcode>\w+)\t?(?P<addr0>[\w.+]+)?(, (?P<addr1>\w+))?.*", item).groupdict()
+				cmd = dict([ (k, v) for k, v in cmd.iteritems() if v ])
+				lineList[-1]['asm'].append(cmd) # append it to the asm object in the last line
 
 	functionList[-1]['lines'] = lineList # append the line to the list of lines of the last function
 
