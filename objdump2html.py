@@ -26,16 +26,15 @@ for function in functions:
 	for item in function: # iterate through the lists of lines
 
 		if re.match("(.*/.*)+:\d+", item):
-
+			lineList.append({'comment': [], 'code':[], 'asm':[]}) 
 			lineNumber = int(item.split(':')[-1]) # determine the line number mentioned
-			relevantLines = filter(bool, filec[last:lineNumber]) # all the non-empty lines between last and current line numbers
-			comments = [item.replace('//', '').strip() for item in relevantLines if re.search("//.*", item)] # parse source code lines for comments
-			code = [item.strip() for item in relevantLines if not re.search("//.*", item)] # clean lines
-			lineList.append({'comment': comments}) # make new dictionary in lineList, add comments
-			lineList[-1].update({'code': code}) # append the raw C code
-			lineList[-1].update({'asm': []}) # make an empty dictionary for the parsed ASM
+			for line in filter(bool, filec[last:lineNumber]):
+				match = re.search("((?<=// ).*)", line)
+				if match:
+					lineList[-1]['comment'].append(match.group())
+				else:
+					lineList[-1]['code'].append(line.strip())
 			last = lineNumber 
-
 		elif re.match("\w{8} <(.*)>:", item):
 			functionList[-1]['name'] = re.match("\w{8} <(.*)>:", item).groups()[0]
 		elif re.match("\w+\(\):", item):
