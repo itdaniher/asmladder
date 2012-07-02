@@ -4,35 +4,16 @@ import json
 
 # read object dump with inline line numbers
 fileobj = open("main.objdump").read()
-fileobj = fileobj.split('\n')[6:-1]
+fileobj = fileobj.splitlines()[6::]
 
-functions = [item.split('\n') for item in '\n'.join(fileobj).split('\n\n')]
-functions = filter(bool, functions)
+functions = [item.split('\n') for item in '\n'.join(fileobj).split('\n\n') if bool(item)]
 
 # read source file
 filec = open("main.c").read()
-filec = filec.split('\n')
-
-# filter function definitions and includes
-matchFunctions = re.compile(".*\([^;]*\).*{$")
-matchInclude = re.compile("#.*")
-
-def safeMatch(match = None):
-	""" sugar function for regex matches """
-	if match:
-		return match.group()
-	else:
-		return None
-
-def removeItems(regex, lst):
-	""" takes a regular expression and a list and replaces all instances of the regex with an empty string """
-	results = []
-	for item in lst:
-		results.append(safeMatch(re.search(regex, item)))
-	return [item if item not in results else '' for item in lst]
+filec = filec.splitlines()
 
 # remove function definitions from the C code
-filec = removeItems(matchInclude, filec)
+filec = [item if not re.match("#.*", item) else '' for item in filec ]
 
 last = 0
 functionList = []
